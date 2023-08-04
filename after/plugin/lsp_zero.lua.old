@@ -1,0 +1,162 @@
+local lsp = require 'lsp-zero'
+local cmp = require 'cmp'
+
+cmp.setup({
+  experimental = {
+    ghost_text = true,
+  },
+  formatting = {
+    fields = { "menu", "abbr", "kind" },
+    format = function(entry, item)
+      print("cmp is setting up.")
+      local menu_icon = {
+        nvim_lsp = 'λ',
+        luasnip = '⋗',
+        buffer = 'Ω',
+        path = '🖫',
+        nvim_lua = 'Π',
+      }
+      item.menu = menu_icon[entry.source.name]
+      return item
+    end,
+  },
+})
+
+lsp.preset("recommended")
+
+lsp.ensure_installed = {
+  'lua_ls',
+}
+
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({ buffer = bufnr })
+
+  if client.server_capabilities.documentSymbolProvider then
+    require('nvim-navic').attach(client, bufnr)
+  end
+
+  if client.supports_method("textDocument/inlayHint") then
+    --print("Client support inlayHint!")
+    vim.lsp.inlay_hint(bufnr, true)
+  else
+    --print("Client support inlayHint!")
+    vim.lsp.inlay_hint(bufnr, false)
+  end
+end)
+
+
+
+require('lspconfig').lua_ls.setup(require("lsp-zero").nvim_lua_ls(
+  {
+    settings = {
+      Lua = {
+        hint = {
+          enable = true,
+        },
+      },
+    }
+  }))
+
+
+
+require('lspconfig').jsonls.setup {
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas(),
+      validate = { enable = true },
+    },
+  },
+}
+
+
+vim.diagnostic.config {
+  virtual_text = true,
+  signs = true,
+  update_in_insert = true,
+  severity_sort = true,
+}
+
+lsp.skip_server_setup({ 'rust_analyzer' })
+lsp.setup()
+
+local rt = require("rust-tools")
+rt.setup({
+  server = {
+    on_attach = on_attach,
+    standalone = true,
+  },
+})
+
+require("lspconfig").rust_analyzer.setup({
+  on_attach = function(client)
+    require('completion').on_attach(client)
+  end,
+  settings = {
+    ["rust-analyzer"] = {
+      imports = {
+        granularity = {
+          group = "module",
+        },
+        prefix = "self",
+      },
+      cargo = {
+        buildScripts = {
+          enable = true,
+        },
+        procMacro = {
+          enable = true
+        },
+      },
+      completion = {
+        limit = 8,
+      },
+      diagnostics = {
+        enable = true,
+        experimental = {
+          enable = true,
+        },
+      },
+      hover = {
+        actions = {
+          enable = true
+        },
+      },
+      inlayHints = {
+        expressionAdjustmentHints = { enable = true, },
+        reborrowHints = { enable = true, },
+        parameterHints = { enable = true },
+        lifetimeElisionHints = {
+          enable = true,
+          useParameterNames = true,
+        },
+        bindingModeHints = {
+          enable = true,
+        },
+        maxLength = nil,
+      },
+      semanticHighlighting = {
+        operator = {
+          specialization = {
+            enable = true,
+          },
+        },
+        punctuation = {
+          enable = true,
+          separate = {
+            macro = {
+              bang = true,
+            },
+          },
+          specialization = {
+            enable = true,
+          },
+        },
+      },
+      typing = {
+        autoClosingAngleBrackets = {
+          enable = true,
+        },
+      },
+    },
+  },
+})
