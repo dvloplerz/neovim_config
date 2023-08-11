@@ -13,7 +13,6 @@ Map.general = {
     ['n'] = { 'nzzzv' },
     ['N'] = { 'Nzzzv' },
     ['<leader>y'] = { '"+y' },
-    ['<leader>d'] = { '"_d' },
     ['<leader>f'] = { vim.lsp.buf.format },
     ["<leader>s"] = { ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>" },
     ['<leader><leader>'] = { vim.cmd.so },
@@ -51,3 +50,4 @@ for _, mode_val in pairs(Map) do
     end
   end
 end
+

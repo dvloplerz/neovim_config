@@ -1,5 +1,6 @@
 -- vim options settings.
 local opts = {
+  breakindent = true,
   cursorline = true,
   cursorcolumn = false,
   clipboard = 'unnamedplus',
@@ -23,6 +24,7 @@ local opts = {
   undodir = os.getenv("HOME") .. "/.config/nvim/undodir",
   hlsearch = false,
   incsearch = true,
+  inccommand = 'split',
   termguicolors = true,
   scrolloff = 20,
   signcolumn = 'yes',
@@ -38,6 +40,7 @@ local opts = {
   pumblend = 15,
   list = false,
   --listchars = {eol = " ", tab = ">-", space = " ", multispace =" ", leadmultispace = "-+ "},
+  wildignore = { "Cargo.lock" },
   scroll = 10,
   scrollback = 10,
 }

@@ -1,7 +1,11 @@
+local nmap = function(lhs, rhs, opts)
+  vim.keymap.set('n', lhs, rhs, opts)
+end
+
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-vim.keymap.set('n', '<leader>ps', function()
-	builtin.grep_string({ search = vim.fn.input("Grep > ") })
-end)
-vim.keymap.set('n', '<leader>H', builtin.help_tags, {})
+nmap('<leader>pf', builtin.find_files, { noremap = false })
+nmap('<leader>bl', builtin.buffers, { noremap = false })
+nmap('<leader>H', builtin.help_tags, { noremap = false })
+nmap('<leader>?', builtin.oldfiles, { noremap = false })
+nmap('<leader>qf', builtin.quickfix, { noremap = false })
+nmap('<leader>da', builtin.diagnostics, { noremap = false })

@@ -42,7 +42,6 @@
     "/home/dvlp/.local/share/nvim/lazy/cmp-buffer/after",
     "/home/dvlp/.local/share/nvim/lazy/cmp-nvim-lsp/after",
     "/home/dvlp/.config/nvim/after",
-    "/home/dvlp/.local/state/nvim/lazy/readme",
     "${3rd}/luassert/library"
   ],
   "completion": {
@@ -64,7 +63,7 @@
     "annotation": true
   },
   "workspace": {
-    "checkThirdParty": true
+    "checkThirdParty": false
   },
   "codeLens": {
     "enable": true
@@ -78,7 +77,10 @@
     "paramName": "Literal",
     "paramType": true,
     "semicolon": "Disable",
-    "await": false,
+    "await": true,
     "arrayIndex": "Disable"
-  }
+  },
+  "diagnostics.disable": [
+    "unused-local"
+  ]
 }
